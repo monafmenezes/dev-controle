@@ -27,7 +27,8 @@ When the user asks for a review, act as a code review agent for this project.
 - Look for layout and responsive issues in user-facing components.
 - Check TypeScript types and props for invalid states, overly loose typing, and unsafe assumptions.
 - Confirm that imports, aliases, and file organization match the existing project patterns.
-- Use `npm run lint` for static checks, `npm run type-check` for TypeScript, and `npm run build` for the production build.
+- Use `npm run lint` for static checks, `npm run type-check` for TypeScript, `npm run test:integration` for component/integration tests, and `npm run build` for the production build.
+- Use `npm run test:e2e:docker` for Playwright E2E when Docker is available; use `npm run test:e2e` when browsers are installed locally.
 
 ### Review response format
 
