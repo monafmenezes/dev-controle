@@ -24,6 +24,11 @@ This repository is the initial version of the project and will evolve with authe
 - English: [docs/testing.en.md](docs/testing.en.md)
 - Português (Brasil): [docs/testing.pt-BR.md](docs/testing.pt-BR.md)
 
+## Monitoring Docs
+
+- English: [docs/monitoring.en.md](docs/monitoring.en.md)
+- Português (Brasil): [docs/monitoring.pt-BR.md](docs/monitoring.pt-BR.md)
+
 ## Tech Stack
 
 - Next.js 16
@@ -59,6 +64,80 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - `npm run test:integration`: run integration tests
 - `npm run test:e2e`: run Playwright E2E locally
 - `npm run test:e2e:docker`: run E2E inside Docker
+
+## Monitoring and Observability
+
+This project now includes:
+
+- Sentry for real-time error tracking with stack traces (client, server, and edge)
+- Core Web Vitals collection focused on `LCP`, `INP`, and `CLS`
+
+Client web-vitals are posted to:
+
+- `POST /api/monitoring/web-vitals`
+
+Poor and needs-improvement metrics are sent to Sentry as observability events.
+
+### Environment variables
+
+Add these variables in your environment:
+
+```bash
+SENTRY_DSN=
+NEXT_PUBLIC_SENTRY_DSN=
+SENTRY_ENVIRONMENT=development
+NEXT_PUBLIC_SENTRY_ENVIRONMENT=development
+SENTRY_TRACES_SAMPLE_RATE=0.1
+NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE=0.1
+SENTRY_PROFILES_SAMPLE_RATE=0.1
+SENTRY_AUTH_TOKEN=
+SENTRY_ORG=
+SENTRY_PROJECT=
+```
+
+Build-time source map upload requires `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, and `SENTRY_PROJECT`.
+
+## Docker
+
+The project includes:
+
+- `Dockerfile`: production image for the app
+- `Dockerfile.e2e`: Playwright image for E2E tests
+- `docker-compose.yml`: orchestration for app and optional E2E service
+
+### Prepare environment
+
+Copy `.env.example` to `.env` and fill in Sentry values:
+
+```bash
+cp .env.example .env
+```
+
+### Run app with Docker Compose
+
+```bash
+npm run docker:up
+```
+
+Open `http://localhost:3000`.
+
+### Follow logs
+
+```bash
+npm run docker:logs
+```
+
+### Stop containers
+
+```bash
+npm run docker:down
+```
+
+### Run E2E in Docker
+
+```bash
+npm run docker:e2e
+```
 
 ## Next Milestones
 
