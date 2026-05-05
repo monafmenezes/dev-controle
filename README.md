@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dev Controle
+
+Versão em português (Brasil): [README.pt-BR.md](README.pt-BR.md)
+
+Dev Controle is a web application focused on customer and ticket management.
+
+The main goal is to allow each user to:
+
+- register and manage their own clients
+- create support tickets (chamados) linked to those clients
+- track tickets by status and history within their own workspace
+
+This repository is the initial version of the project and will evolve with authentication, data ownership rules, and full ticket workflows.
+
+## Product Scope (Initial)
+
+- Client registration
+- Ticket creation linked to a client
+- Per-user data visibility (each user sees only their own data)
+- Dashboard for quick operational view
+
+## Testing Docs
+
+- English: [docs/testing.en.md](docs/testing.en.md)
+- Português (Brasil): [docs/testing.pt-BR.md](docs/testing.pt-BR.md)
+
+## Tech Stack
+
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS
+- Vitest + Testing Library (integration tests)
+- Playwright (E2E tests)
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Useful Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev`: start development server
+- `npm run build`: build for production
+- `npm run start`: run production build
+- `npm run lint`: run ESLint
+- `npm run type-check`: run TypeScript checks
+- `npm run test:integration`: run integration tests
+- `npm run test:e2e`: run Playwright E2E locally
+- `npm run test:e2e:docker`: run E2E inside Docker
 
-## Learn More
+## Next Milestones
 
-To learn more about Next.js, take a look at the following resources:
+1. Authentication and authorization per user
+2. Client CRUD
+3. Ticket CRUD with status flow
+4. Assignment and filtering by user
+5. Audit trail and timeline per ticket
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Notes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Project structure and conventions may continue to evolve as core features are implemented.
+- For testing patterns, use the guides in `docs/testing.en.md` and `docs/testing.pt-BR.md`.
