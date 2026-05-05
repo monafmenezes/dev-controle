@@ -13,17 +13,17 @@ Descreva em 2-5 linhas o que esta PR entrega.
 
 ## O que mudou
 
-- 
-- 
-- 
+-
+-
+-
 
 ## Como validar
 
 Passos para testar manualmente:
 
-1. 
-2. 
-3. 
+1.
+2.
+3.
 
 ## Checklist técnico
 
@@ -45,7 +45,7 @@ Passos para testar manualmente:
 
 - Risco da mudança: `baixo | médio | alto`
 - Plano de rollback (se necessário):
-  - 
+  -
 
 ## Evidências (opcional)
 

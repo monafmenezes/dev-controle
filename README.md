@@ -21,18 +21,18 @@ This repository is the initial version of the project and will evolve with authe
 
 ## Testing Docs
 
-- English: [docs/testing.en.md](docs/testing.en.md)
-- Português (Brasil): [docs/testing.pt-BR.md](docs/testing.pt-BR.md)
+- English: [docs/testing/testing.en.md](docs/testing/testing.en.md)
+- Português (Brasil): [docs/testing/testing.pt-BR.md](docs/testing/testing.pt-BR.md)
 
 ## Monitoring Docs
 
-- English: [docs/monitoring.en.md](docs/monitoring.en.md)
-- Português (Brasil): [docs/monitoring.pt-BR.md](docs/monitoring.pt-BR.md)
+- English: [docs/monitoring/monitoring.en.md](docs/monitoring/monitoring.en.md)
+- Português (Brasil): [docs/monitoring/monitoring.pt-BR.md](docs/monitoring/monitoring.pt-BR.md)
 
 ## CI/CD Docs
 
-- English: [docs/ci-cd.en.md](docs/ci-cd.en.md)
-- Português (Brasil): [docs/ci-cd.pt-BR.md](docs/ci-cd.pt-BR.md)
+- English: [docs/ci-cd/ci-cd.en.md](docs/ci-cd/ci-cd.en.md)
+- Português (Brasil): [docs/ci-cd/ci-cd.pt-BR.md](docs/ci-cd/ci-cd.pt-BR.md)
 
 ## Tech Stack
 
@@ -155,7 +155,7 @@ npm run docker:e2e
 ## Notes
 
 - Project structure and conventions may continue to evolve as core features are implemented.
-- For testing patterns, use the guides in `docs/testing.en.md` and `docs/testing.pt-BR.md`.
+- For testing patterns, use the guides in `docs/testing/testing.en.md` and `docs/testing/testing.pt-BR.md`.
 
 ## CI/CD with GitHub Actions
 
