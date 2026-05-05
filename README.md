@@ -29,6 +29,11 @@ This repository is the initial version of the project and will evolve with authe
 - English: [docs/monitoring.en.md](docs/monitoring.en.md)
 - Português (Brasil): [docs/monitoring.pt-BR.md](docs/monitoring.pt-BR.md)
 
+## CI/CD Docs
+
+- English: [docs/ci-cd.en.md](docs/ci-cd.en.md)
+- Português (Brasil): [docs/ci-cd.pt-BR.md](docs/ci-cd.pt-BR.md)
+
 ## Tech Stack
 
 - Next.js 16
@@ -151,3 +156,42 @@ npm run docker:e2e
 
 - Project structure and conventions may continue to evolve as core features are implemented.
 - For testing patterns, use the guides in `docs/testing.en.md` and `docs/testing.pt-BR.md`.
+
+## CI/CD with GitHub Actions
+
+The repository includes a CI workflow at:
+
+- `.github/workflows/ci.yml`
+
+Checks executed on CI:
+
+- `npm run lint`
+- `npm run type-check`
+- `npm run test:integration`
+- `npm run build`
+
+### How to block merge unless checks pass
+
+In your GitHub repository:
+
+1. Go to `Settings` > `Branches`
+2. Under `Branch protection rules`, click `Add rule`
+3. Set `Branch name pattern` to `main`
+4. Enable `Require a pull request before merging`
+5. Enable `Require status checks to pass before merging`
+6. Select required check:
+   - `Lint, Typecheck, Tests and Build`
+7. Save the rule
+
+After this, PRs into `main` can only be merged when CI is green.
+
+### Cost summary
+
+- Public repositories: standard GitHub-hosted runners are free.
+- Private repositories: monthly quota depends on plan; overage is billed.
+- GitHub Pro (included for verified students in GitHub Education) includes a higher monthly Actions quota.
+
+Always confirm current values in official docs:
+
+- `docs.github.com` at _GitHub Actions billing_
+- `github.com/education/students` for student benefits

@@ -29,6 +29,11 @@ Este repositório é a versão inicial do projeto e vai evoluir com autenticaç�
 - English: [docs/monitoring.en.md](docs/monitoring.en.md)
 - Português (Brasil): [docs/monitoring.pt-BR.md](docs/monitoring.pt-BR.md)
 
+## Documentação de CI/CD
+
+- English: [docs/ci-cd.en.md](docs/ci-cd.en.md)
+- Português (Brasil): [docs/ci-cd.pt-BR.md](docs/ci-cd.pt-BR.md)
+
 ## Stack Tecnológica
 
 - Next.js 16
@@ -151,3 +156,42 @@ npm run docker:e2e
 
 - A estrutura do projeto e as convenções podem evoluir conforme as funcionalidades centrais forem implementadas.
 - Para padrões de testes, use os guias em `docs/testing.en.md` e `docs/testing.pt-BR.md`.
+
+## CI/CD com GitHub Actions
+
+O projeto possui workflow em:
+
+- `.github/workflows/ci.yml`
+
+Checks executados no CI:
+
+- `npm run lint`
+- `npm run type-check`
+- `npm run test:integration`
+- `npm run build`
+
+### Como bloquear merge sem passar nos checks
+
+No GitHub do repositório:
+
+1. Vá em `Settings` > `Branches`
+2. Em `Branch protection rules`, clique em `Add rule`
+3. Em `Branch name pattern`, use `main`
+4. Marque `Require a pull request before merging`
+5. Marque `Require status checks to pass before merging`
+6. Em checks obrigatórios, selecione:
+   - `Lint, Typecheck, Tests and Build`
+7. Salve a regra
+
+Depois disso, PR para `main` só faz merge com o CI verde.
+
+### Custo (resumo)
+
+- Repositórios públicos: GitHub Actions em runners padrão é gratuito.
+- Repositórios privados: usa cota mensal por plano; excedente é cobrado.
+- Com GitHub Pro (incluído para estudantes verificados no GitHub Education), há cota maior de minutos.
+
+Consulte sempre os valores atuais na documentação oficial:
+
+- `docs.github.com` em _GitHub Actions billing_
+- `github.com/education/students` para benefícios de estudante
