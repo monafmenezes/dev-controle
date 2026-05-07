@@ -1,36 +1,197 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dev Controle
+
+Versão em português (Brasil): [README.pt-BR.md](README.pt-BR.md)
+
+Dev Controle is a web application focused on customer and ticket management.
+
+The main goal is to allow each user to:
+
+- register and manage their own clients
+- create support tickets (chamados) linked to those clients
+- track tickets by status and history within their own workspace
+
+This repository is the initial version of the project and will evolve with authentication, data ownership rules, and full ticket workflows.
+
+## Product Scope (Initial)
+
+- Client registration
+- Ticket creation linked to a client
+- Per-user data visibility (each user sees only their own data)
+- Dashboard for quick operational view
+
+## Testing Docs
+
+- English: [docs/testing/testing.en.md](docs/testing/testing.en.md)
+- Português (Brasil): [docs/testing/testing.pt-BR.md](docs/testing/testing.pt-BR.md)
+
+## Monitoring Docs
+
+- English: [docs/monitoring/monitoring.en.md](docs/monitoring/monitoring.en.md)
+- Português (Brasil): [docs/monitoring/monitoring.pt-BR.md](docs/monitoring/monitoring.pt-BR.md)
+
+## CI/CD Docs
+
+- English: [docs/ci-cd/ci-cd.en.md](docs/ci-cd/ci-cd.en.md)
+- Português (Brasil): [docs/ci-cd/ci-cd.pt-BR.md](docs/ci-cd/ci-cd.pt-BR.md)
+
+## Tech Stack
+
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS
+- Vitest + Testing Library (integration tests)
+- Playwright (E2E tests)
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Useful Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev`: start development server
+- `npm run build`: build for production
+- `npm run start`: run production build
+- `npm run lint`: run ESLint
+- `npm run type-check`: run TypeScript checks
+- `npm run test:integration`: run integration tests
+- `npm run test:e2e`: run Playwright E2E locally
+- `npm run test:e2e:docker`: run E2E inside Docker
 
-## Learn More
+## Monitoring and Observability
 
-To learn more about Next.js, take a look at the following resources:
+This project now includes:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Sentry for real-time error tracking with stack traces (client, server, and edge)
+- Core Web Vitals collection focused on `LCP`, `INP`, and `CLS`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Client web-vitals are posted to:
 
-## Deploy on Vercel
+- `POST /api/monitoring/web-vitals`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Poor and needs-improvement metrics are sent to Sentry as observability events.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Environment variables
+
+Add these variables in your environment:
+
+```bash
+SENTRY_DSN=
+NEXT_PUBLIC_SENTRY_DSN=
+SENTRY_ENVIRONMENT=development
+NEXT_PUBLIC_SENTRY_ENVIRONMENT=development
+SENTRY_TRACES_SAMPLE_RATE=0.1
+NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE=0.1
+SENTRY_PROFILES_SAMPLE_RATE=0.1
+SENTRY_AUTH_TOKEN=
+SENTRY_ORG=
+SENTRY_PROJECT=
+```
+
+Build-time source map upload requires `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, and `SENTRY_PROJECT`.
+
+## Docker
+
+The project includes:
+
+- `Dockerfile`: production image for the app
+- `Dockerfile.e2e`: Playwright image for E2E tests
+- `docker-compose.yml`: orchestration for app and optional E2E service
+
+### Prepare environment
+
+Copy `.env.example` to `.env` and fill in Sentry values:
+
+```bash
+cp .env.example .env
+```
+
+### Run app with Docker Compose
+
+```bash
+npm run docker:up
+```
+
+Open `http://localhost:3000`.
+
+### Follow logs
+
+```bash
+npm run docker:logs
+```
+
+### Stop containers
+
+```bash
+npm run docker:down
+```
+
+### Run E2E in Docker
+
+```bash
+npm run docker:e2e
+```
+
+## Next Milestones
+
+1. Authentication and authorization per user
+2. Client CRUD
+3. Ticket CRUD with status flow
+4. Assignment and filtering by user
+5. Audit trail and timeline per ticket
+
+## Notes
+
+- Project structure and conventions may continue to evolve as core features are implemented.
+- For testing patterns, use the guides in `docs/testing/testing.en.md` and `docs/testing/testing.pt-BR.md`.
+
+## CI/CD with GitHub Actions
+
+The repository includes a CI workflow at:
+
+- `.github/workflows/ci.yml`
+
+Checks executed on CI:
+
+- `npm run lint`
+- `npm run type-check`
+- `npm run test:integration`
+- `npm run build`
+
+### How to block merge unless checks pass
+
+In your GitHub repository:
+
+1. Go to `Settings` > `Branches`
+2. Under `Branch protection rules`, click `Add rule`
+3. Set `Branch name pattern` to `main`
+4. Enable `Require a pull request before merging`
+5. Enable `Require status checks to pass before merging`
+6. Select required check:
+   - `Lint, Typecheck, Tests and Build`
+7. Save the rule
+
+After this, PRs into `main` can only be merged when CI is green.
+
+### Cost summary
+
+- Public repositories: standard GitHub-hosted runners are free.
+- Private repositories: monthly quota depends on plan; overage is billed.
+- GitHub Pro (included for verified students in GitHub Education) includes a higher monthly Actions quota.
+
+Always confirm current values in official docs:
+
+- `docs.github.com` at _GitHub Actions billing_
+- `github.com/education/students` for student benefits
