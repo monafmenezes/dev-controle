@@ -24,10 +24,18 @@ export function Header() {
           </h1>
         </Link>
 
-        { status === 'loading' && <FiLoader size={26} color='#4b5563' className='animate-spin' /> }
+        { status === 'loading' && (
+          <FiLoader
+            size={26}
+            color="#4b5563"
+            className="animate-spin"
+            role="status"
+            aria-label="Carregando sessão"
+          />
+        )}
         { status === 'unauthenticated' && (
-          <button>
-            <FiLock size={26} color="#4b5563" onClick={handleLogin} />
+          <button type="button" aria-label="Entrar" onClick={handleLogin}>
+            <FiLock size={26} color="#4b5563" />
           </button>
         )}
         { status === 'authenticated' && (
@@ -35,7 +43,7 @@ export function Header() {
           <Link href="/dashboard">
             <FiUser size={26} color="#4b5563" />
           </Link>
-          <button onClick={handleLogout}>
+          <button type="button" aria-label="Sair" onClick={handleLogout}>
             <FiLogOut size={26} color="#4b5563" />
           </button>
         </div>

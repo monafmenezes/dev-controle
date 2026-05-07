@@ -18,7 +18,7 @@
     "test:e2e": "playwright test",
     "test:e2e:docker": "docker build -f Dockerfile.e2e -t dev-controle-e2e . && docker run --rm --ipc=host dev-controle-e2e",
     "test:e2e:ui": "playwright test --ui",
-    "type-check": "tsc --noEmit",
+    "type-check": "next typegen && tsc --noEmit",
     "start": "next start"
   },
   "dependencies": {
