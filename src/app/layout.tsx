@@ -1,21 +1,24 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import { Header } from "@/components/header";
+import type { Metadata } from 'next';
+import { Geist, Geist_Mono } from 'next/font/google';
+import './globals.css';
+import { Header } from '@/components/header';
+import { WebVitals } from '@/components/observability/web-vitals';
+import { AuthProvider } from './providers/auth';
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
-  title: "Dev Controle - Seu sistema de gerenciamento.",
-  description: "Gerencie seus projetos de forma eficiente com o Dev Controle, o sistema de gerenciamento completo para desenvolvedores.",
+  title: 'Dev Controle - Seu sistema de gerenciamento.',
+  description:
+    'Gerencie seus projetos de forma eficiente com o Dev Controle, o sistema de gerenciamento completo para desenvolvedores.',
 };
 
 export default function RootLayout({
@@ -24,12 +27,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <Header />
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="pt-BR" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+      <body className="min-h-full flex flex-col">
+        <AuthProvider>
+          <WebVitals />
+          <Header />
+          {children}
+        </AuthProvider>
+      </body>
     </html>
   );
 }
