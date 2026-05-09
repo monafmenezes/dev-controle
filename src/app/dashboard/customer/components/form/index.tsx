@@ -45,8 +45,8 @@ export function NewCustomerForm({userId}: {userId: string}) {
     }
 
     return (
-        <form className="flex flex-col mt-6 gap-2 bg-gray-100 border-gray-300 border p-4 rounded-lg" onSubmit={handleSubmit(handleRegister)}>
-            <label className="mb-1 font-medium text-lg">Nome completo</label>
+        <form className="mt-6 flex max-w-3xl flex-col gap-4 rounded-md border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900" onSubmit={handleSubmit(handleRegister)}>
+            <label className="text-sm font-semibold text-slate-700 dark:text-slate-200">Nome completo</label>
             <Input 
                 type="text" 
                 placeholder="Digite o nome do cliente.." 
@@ -54,9 +54,9 @@ export function NewCustomerForm({userId}: {userId: string}) {
                 register={register} 
                 error={errors.name?.message} 
             />
-            <section className="flex gap-2 flex-col sm:flex-row">
+            <section className="flex gap-4 flex-col sm:flex-row">
                 <div className="flex-1">
-                    <label className="mb-1 font-medium text-lg">Email</label>
+                    <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">Email</label>
                     <Input 
                         type="email" 
                         placeholder="Digite o email do cliente.." 
@@ -66,7 +66,7 @@ export function NewCustomerForm({userId}: {userId: string}) {
                     />
                 </div>
                 <div className="flex-1">
-                    <label className="mb-1 font-medium text-lg">Telefone</label>
+                    <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">Telefone</label>
                     <Input 
                         type="text" 
                         placeholder="Digite o telefone do cliente.." 
@@ -77,7 +77,7 @@ export function NewCustomerForm({userId}: {userId: string}) {
                 </div>
             </section>
 
-            <label className="mb-1 font-medium text-lg">Endereço</label>
+            <label className="text-sm font-semibold text-slate-700 dark:text-slate-200">Endereço</label>
             <Input 
                 type="text" 
                 placeholder="Digite o endereço  " 
@@ -86,7 +86,7 @@ export function NewCustomerForm({userId}: {userId: string}) {
                 error={errors.address?.message} 
             />
 
-            <button type="submit" disabled={isSubmitting} className="bg-blue-500 h-11 font-bold my-4 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors disabled:cursor-not-allowed disabled:opacity-70">
+            <button type="submit" disabled={isSubmitting} className="mt-2 inline-flex h-11 items-center justify-center rounded-md bg-slate-950 px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70 dark:bg-sky-500 dark:text-slate-950 dark:hover:bg-sky-400">
                 {isSubmitting ? "Salvando..." : "Salvar"}
             </button>
         </form>

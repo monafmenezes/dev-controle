@@ -15,13 +15,13 @@ export function Input({ type, placeholder, name, register, error, rules }: Input
     return (
         <>
         <input
-            className="w-full rounded-md border-2 border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none"
+            className="h-11 w-full rounded-md border border-slate-300 bg-white px-4 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-sky-500 focus:ring-4 focus:ring-sky-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-sky-400 dark:focus:ring-sky-400/10"
             type={type}
             placeholder={placeholder}
             {...register(name, rules)}
             id={name}
         />
-        {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+        {error && <p className="text-rose-600 text-sm mt-1 dark:text-rose-400">{error}</p>}
         </>
     );
 }
