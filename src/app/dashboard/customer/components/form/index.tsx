@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Input } from "@/components/input"
 import { api } from "@/lib/api"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 const schema = z.object({
     name: z.string().min(2, "O campo nome é obrigatório").max(100),
@@ -19,22 +20,28 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 export function NewCustomerForm({userId}: {userId: string}) {
-    const {register, handleSubmit, formState: { errors }} = useForm<FormData>({
+    const {register, handleSubmit, formState: { errors, isSubmitting }} = useForm<FormData>({
         resolver: zodResolver(schema)
     })
     
     const router = useRouter();
 
     async function handleRegister(data: FormData) {
-       await api.post('/api/customer', {
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        address: data.address,
-        userId: userId,
-       })
-       
-       router.replace('/dashboard/customer')
+       try {
+        await api.post('/customer', {
+            name: data.name,
+            email: data.email,
+            phone: data.phone,
+            address: data.address,
+            userId: userId,
+        })
+
+        toast.success("Cliente cadastrado com sucesso!")
+        router.refresh();
+        router.replace('/dashboard/customer')
+       } catch {
+        toast.error("Não foi possível cadastrar o cliente.")
+       }
     }
 
     return (
@@ -79,8 +86,8 @@ export function NewCustomerForm({userId}: {userId: string}) {
                 error={errors.address?.message} 
             />
 
-            <button type="submit" className="bg-blue-500 h-11 font-bold my-4 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors">
-                Salvar
+            <button type="submit" disabled={isSubmitting} className="bg-blue-500 h-11 font-bold my-4 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors disabled:cursor-not-allowed disabled:opacity-70">
+                {isSubmitting ? "Salvando..." : "Salvar"}
             </button>
         </form>
     )

@@ -4,6 +4,7 @@ import './globals.css';
 import { Header } from '@/components/header';
 import { WebVitals } from '@/components/observability/web-vitals';
 import { AuthProvider } from './providers/auth';
+import { Toaster } from 'sonner';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -33,6 +34,7 @@ export default function RootLayout({
           <WebVitals />
           <Header />
           {children}
+          <Toaster richColors position="top-right" />
         </AuthProvider>
       </body>
     </html>
