@@ -15,6 +15,7 @@
     "docker:e2e": "docker compose --profile e2e run --rm e2e",
     "test": "vitest",
     "test:integration": "vitest run",
+    "test:coverage": "vitest run --coverage --coverage.include='src/**/*.{ts,tsx}' --coverage.exclude='src/**/*.test.{ts,tsx}'",
     "test:e2e": "playwright test",
     "test:e2e:docker": "docker build -f Dockerfile.e2e -t dev-controle-e2e . && docker run --rm --ipc=host dev-controle-e2e",
     "test:e2e:ui": "playwright test --ui",
@@ -23,15 +24,21 @@
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.2",
+    "@hookform/resolvers": "^5.2.2",
     "@prisma/client": "6.19.3",
     "@prisma/extension-accelerate": "^3.0.1",
     "@sentry/nextjs": "^10.51.0",
+    "axios": "^1.16.0",
     "dotenv": "^17.4.2",
     "next": "16.2.4",
     "next-auth": "^4.24.14",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
-    "react-icons": "^5.6.0"
+    "react-hook-form": "^7.75.0",
+    "react-icons": "^5.6.0",
+    "sonner": "^2.0.7",
+    "yup": "^1.7.1",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@playwright/test": "^1.59.1",
@@ -43,6 +50,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^6.0.1",
+    "@vitest/coverage-v8": "^4.1.5",
     "eslint": "^9.39.4",
     "eslint-config-next": "^16.2.4",
     "eslint-config-prettier": "^10.1.8",

@@ -18,6 +18,8 @@ This repository is the initial version of the project and will evolve with authe
 - Ticket creation linked to a client
 - Per-user data visibility (each user sees only their own data)
 - Dashboard for quick operational view
+- Clean responsive dashboard UI with dark mode
+- User feedback with toast notifications
 
 ## Testing Docs
 
@@ -40,6 +42,9 @@ This repository is the initial version of the project and will evolve with authe
 - React 19
 - TypeScript
 - Tailwind CSS
+- Prisma + MongoDB
+- NextAuth
+- Sentry
 - Vitest + Testing Library (integration tests)
 - Playwright (E2E tests)
 
@@ -67,6 +72,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - `npm run lint`: run ESLint
 - `npm run type-check`: run TypeScript checks
 - `npm run test:integration`: run integration tests
+- `npm run test:coverage`: run integration tests with coverage
 - `npm run test:e2e`: run Playwright E2E locally
 - `npm run test:e2e:docker`: run E2E inside Docker
 
@@ -76,12 +82,13 @@ This project now includes:
 
 - Sentry for real-time error tracking with stack traces (client, server, and edge)
 - Core Web Vitals collection focused on `LCP`, `INP`, and `CLS`
+- Persistence of web-vitals metrics in MongoDB through Prisma
 
 Client web-vitals are posted to:
 
 - `POST /api/monitoring/web-vitals`
 
-Poor and needs-improvement metrics are sent to Sentry as observability events.
+Valid metrics are saved in the `MonitoringWebVital` collection. Poor and needs-improvement metrics are also sent to Sentry as observability events.
 
 ### Environment variables
 

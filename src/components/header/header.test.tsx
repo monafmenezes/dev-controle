@@ -1,5 +1,5 @@
-import { render, screen } from '@testing-library/react';
-import { beforeEach, describe, expect, test, vi } from 'vitest';
+import { cleanup, render, screen } from '@testing-library/react';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { Header } from './index';
 
 const mockUseSession = vi.hoisted(() => vi.fn());
@@ -11,6 +11,10 @@ vi.mock('next-auth/react', () => ({
 }));
 
 describe('Header', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   beforeEach(() => {
     mockUseSession.mockReturnValue({
       data: {
@@ -29,7 +33,7 @@ describe('Header', () => {
     render(<Header />);
 
     expect(screen.getByRole('link', { name: /dev controle/i })).toHaveAttribute('href', '/');
-    expect(screen.getByRole('link', { name: '' })).toHaveAttribute('href', '/dashboard');
+    expect(screen.getByRole('link', { name: /dashboard/i })).toHaveAttribute('href', '/dashboard');
   });
 
   test('renders the login button when unauthenticated', () => {

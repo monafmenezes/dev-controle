@@ -1,4 +1,7 @@
 import * as Sentry from '@sentry/nextjs';
+import { authOptions } from '@/lib/auth';
+import prismaClient from '@/lib/prisma';
+import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
 type WebVitalRating = 'good' | 'needs-improvement' | 'poor';
@@ -38,6 +41,33 @@ export async function POST(req: Request) {
 
   if (!isValidPayload(payload)) {
     return new NextResponse(null, { status: 422 });
+  }
+
+  try {
+    const session = await getServerSession(authOptions);
+
+    await prismaClient.monitoringWebVital.create({
+      data: {
+        metricId: payload.id,
+        name: payload.name,
+        value: payload.value,
+        delta: payload.delta,
+        rating: payload.rating,
+        navigationType: payload.navigationType,
+        path: payload.path,
+        userAgent: req.headers.get('user-agent'),
+        occurredAt: new Date(payload.timestamp),
+        userId: session?.user?.id,
+      },
+    });
+  } catch (error) {
+    Sentry.captureException(error, {
+      tags: {
+        source: 'web-vitals',
+        operation: 'persist',
+      },
+      extra: payload,
+    });
   }
 
   if (payload.rating !== 'good') {

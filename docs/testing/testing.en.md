@@ -21,6 +21,7 @@ This project uses two testing layers:
 
 - `npm run test`: run Vitest in watch mode
 - `npm run test:integration`: run integration tests once
+- `npm run test:coverage`: run integration tests with V8 coverage for `src/**/*.{ts,tsx}`
 - `npm run test:e2e`: run Playwright E2E locally
 - `npm run test:e2e:ui`: run Playwright in UI mode
 - `npm run test:e2e:docker`: build and run E2E in Docker
@@ -62,6 +63,14 @@ describe('ComponentName', () => {
 ```bash
 npm run test:integration
 ```
+
+### Coverage
+
+```bash
+npm run test:coverage
+```
+
+The coverage command currently includes application source files under `src/**/*.{ts,tsx}` and excludes `src/**/*.test.{ts,tsx}`.
 
 ## E2E tests (Playwright)
 
@@ -133,6 +142,6 @@ Run checks in this order:
 
 1. `npm run lint`
 2. `npm run type-check`
-3. `npm run test:integration`
+3. `npm run test:coverage`
 4. `npm run build`
 5. `npm run test:e2e:docker` (or `npm run test:e2e` if CI has browsers preinstalled)
