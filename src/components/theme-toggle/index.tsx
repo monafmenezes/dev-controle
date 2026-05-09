@@ -17,6 +17,10 @@ function getPreferredTheme(): Theme {
     return savedTheme;
   }
 
+  if (!window.matchMedia) {
+    return "light";
+  }
+
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 

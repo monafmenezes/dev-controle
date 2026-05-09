@@ -11,7 +11,7 @@ export function CardCustomer({ customer }: { customer: CustomerProps }) {
 
     async function handleDeleteCustomer() {
      try {
-        await api.delete(`api/customer?id=${customer.id}`)
+        await api.delete(`/customer?id=${customer.id}`)
         toast.success("Cliente removido com sucesso!")
         router.refresh();
      } catch (error) {
