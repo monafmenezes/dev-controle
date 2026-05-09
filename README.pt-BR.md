@@ -18,6 +18,8 @@ Este repositório é a versão inicial do projeto e vai evoluir com autenticaç�
 - Criação de chamados vinculados a um cliente
 - Visibilidade de dados por usuário (cada usuário vê apenas seus próprios dados)
 - Dashboard para visão operacional rápida
+- Interface responsiva, limpa e com dark mode
+- Feedback para o usuário com notificações toast
 
 ## Documentação de Testes
 
@@ -40,6 +42,9 @@ Este repositório é a versão inicial do projeto e vai evoluir com autenticaç�
 - React 19
 - TypeScript
 - Tailwind CSS
+- Prisma + MongoDB
+- NextAuth
+- Sentry
 - Vitest + Testing Library (testes de integração)
 - Playwright (E2E)
 
@@ -67,6 +72,7 @@ Abra [http://localhost:3000](http://localhost:3000) no navegador.
 - `npm run lint`: executa o ESLint
 - `npm run type-check`: executa checagem de tipos com TypeScript
 - `npm run test:integration`: executa testes de integração
+- `npm run test:coverage`: executa testes de integração com cobertura
 - `npm run test:e2e`: executa testes E2E do Playwright localmente
 - `npm run test:e2e:docker`: executa testes E2E dentro do Docker
 
@@ -76,12 +82,13 @@ O projeto agora inclui:
 
 - Sentry para captura de erros em tempo real com stack trace (client, server e edge)
 - Coleta de Core Web Vitals com foco em `LCP`, `INP` e `CLS`
+- Persistência das métricas de web-vitals no MongoDB via Prisma
 
 As métricas de web-vitals no client são enviadas para:
 
 - `POST /api/monitoring/web-vitals`
 
-Métricas com rating `poor` e `needs-improvement` são enviadas ao Sentry como eventos de observabilidade.
+Métricas válidas são salvas na collection `MonitoringWebVital`. Métricas com rating `poor` e `needs-improvement` também são enviadas ao Sentry como eventos de observabilidade.
 
 ### Variáveis de ambiente
 

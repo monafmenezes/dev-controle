@@ -21,6 +21,7 @@ Este projeto usa duas camadas de testes:
 
 - `npm run test`: executa Vitest em modo watch
 - `npm run test:integration`: executa testes de integração uma vez
+- `npm run test:coverage`: executa testes de integração com cobertura V8 para `src/**/*.{ts,tsx}`
 - `npm run test:e2e`: executa Playwright E2E localmente
 - `npm run test:e2e:ui`: executa Playwright em modo UI
 - `npm run test:e2e:docker`: builda e executa E2E no Docker
@@ -62,6 +63,14 @@ describe('NomeDoComponente', () => {
 ```bash
 npm run test:integration
 ```
+
+### Cobertura
+
+```bash
+npm run test:coverage
+```
+
+O comando de cobertura inclui os arquivos de aplicação em `src/**/*.{ts,tsx}` e exclui `src/**/*.test.{ts,tsx}`.
 
 ## Testes E2E (Playwright)
 
@@ -133,6 +142,6 @@ Rode as verificações nesta ordem:
 
 1. `npm run lint`
 2. `npm run type-check`
-3. `npm run test:integration`
+3. `npm run test:coverage`
 4. `npm run build`
 5. `npm run test:e2e:docker` (ou `npm run test:e2e` se o CI já tiver browsers instalados)
