@@ -41,6 +41,28 @@ model Ticket {
   user        User?     @relation(fields: [userId], references: [id])
 }
 
+model MonitoringWebVital {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  metricId       String
+  name           String
+  value          Float
+  delta          Float
+  rating         String
+  navigationType String?
+  path           String
+  userAgent      String?
+  occurredAt     DateTime
+  createdAt      DateTime @default(now())
+
+  userId         String?  @db.ObjectId
+  user           User?    @relation(fields: [userId], references: [id])
+
+  @@index([name, rating])
+  @@index([path])
+  @@index([occurredAt])
+  @@index([userId])
+}
+
 model Account {
   id                String  @id @default(auto()) @map("_id") @db.ObjectId
   userId            String  @db.ObjectId
@@ -81,6 +103,7 @@ model User {
   sessions      Session[]
   tickets       Ticket[]
   customers      Customer[]
+  webVitals     MonitoringWebVital[]
 }
 
 model VerificationToken {

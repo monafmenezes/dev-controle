@@ -8,6 +8,7 @@ The project currently uses:
 
 1. Sentry for error tracking and stack traces
 2. Core Web Vitals collection for `LCP`, `INP`, and `CLS`
+3. MongoDB persistence for valid web-vitals payloads
 
 Note: `FID` is now largely superseded by `INP` in modern web-vitals monitoring.
 
@@ -24,7 +25,25 @@ Note: `FID` is now largely superseded by `INP` in modern web-vitals monitoring.
 
 1. The component `src/components/observability/web-vitals.tsx` captures web-vitals in the browser.
 2. It sends metrics to `POST /api/monitoring/web-vitals`.
-3. `src/app/api/monitoring/web-vitals/route.ts` validates payload and forwards non-`good` metrics to Sentry.
+3. `src/app/api/monitoring/web-vitals/route.ts` validates payload.
+4. Valid metrics are saved through Prisma in the `MonitoringWebVital` collection.
+5. Non-`good` metrics are also forwarded to Sentry.
+
+### Persisted fields
+
+The `MonitoringWebVital` model stores:
+
+- `metricId`
+- `name`
+- `value`
+- `delta`
+- `rating`
+- `navigationType`
+- `path`
+- `userAgent`
+- `occurredAt`
+- `createdAt`
+- `userId` when there is an authenticated session
 
 ## Required environment variables
 
@@ -127,7 +146,8 @@ npm run docker:e2e
 
 1. Open app in browser.
 2. Check Network tab for `POST /api/monitoring/web-vitals`.
-3. Confirm events with `rating` `needs-improvement`/`poor` appear in Sentry messages.
+3. Confirm valid payloads are persisted in MongoDB.
+4. Confirm events with `rating` `needs-improvement`/`poor` appear in Sentry messages.
 
 ## Troubleshooting
 
@@ -145,4 +165,4 @@ npm run docker:e2e
 ## Current limitation
 
 - Web-vitals endpoint is public and receives client payloads without authentication.
-- For production hardening, add request filtering/rate limiting before forwarding events to Sentry.
+- For production hardening, add request filtering/rate limiting before persisting or forwarding events to Sentry.

@@ -4,6 +4,7 @@ import './globals.css';
 import { Header } from '@/components/header';
 import { WebVitals } from '@/components/observability/web-vitals';
 import { AuthProvider } from './providers/auth';
+import { Toaster } from 'sonner';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -27,12 +28,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">
+    <html lang="pt-BR" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+      <body className="min-h-full flex flex-col text-slate-950 transition-colors dark:text-slate-100">
         <AuthProvider>
           <WebVitals />
           <Header />
           {children}
+          <Toaster richColors position="top-right" />
         </AuthProvider>
       </body>
     </html>
