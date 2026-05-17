@@ -40,6 +40,8 @@ model Ticket {
   subject     String
   description String
   status      String   @default("open")
+  workTimeSeconds Int   @default(0)
+  activeWorkStartedAt DateTime?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   customer    Customer? @relation(fields: [customerId], references: [id])

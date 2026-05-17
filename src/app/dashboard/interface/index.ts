@@ -3,6 +3,8 @@ export default interface Ticket {
     subject: string;
     description: string;
     status: string;
+    workTimeSeconds: number | null;
+    activeWorkStartedAt: Date | null;
     createdAt: Date;
     updatedAt: Date;
     customerId: string | null;
