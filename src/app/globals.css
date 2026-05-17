@@ -11,13 +11,9 @@
 }
 
 body {
-  background:
-    radial-gradient(circle at top left, rgb(219 234 254 / 0.55), transparent 34rem),
-    linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+  background: #f8fafc;
 }
 
 .dark body {
-  background:
-    radial-gradient(circle at top left, rgb(14 165 233 / 0.14), transparent 34rem),
-    linear-gradient(180deg, #020617 0%, #0f172a 100%);
+  background: #020617;
 }

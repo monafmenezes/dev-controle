@@ -2,6 +2,7 @@ import { PrismaAdapter } from '@auth/prisma-adapter'
 import GoogleProvider from 'next-auth/providers/google'
 import { AuthOptions } from 'next-auth'
 import prismaClient  from './prisma'
+import { UserRole } from '../../generated/prisma/client'
 
 export const authOptions: AuthOptions = {
 
@@ -14,16 +15,25 @@ export const authOptions: AuthOptions = {
     ],
     callbacks: {
         async session({ session, user }) {
-            session.user = {...session.user, id: user.id } as { 
+            const persistedUser = await prismaClient.user.findUnique({
+                where: {
+                    id: user.id,
+                },
+                select: {
+                    role: true,
+                },
+            });
+
+            session.user = {...session.user, id: user.id, role: persistedUser?.role ?? UserRole.USER } as { 
                 id: string,
                 name: string,
                 email: string,
+                role: UserRole,
             }
             
             return session
         },
     },
 }
-
 
 
