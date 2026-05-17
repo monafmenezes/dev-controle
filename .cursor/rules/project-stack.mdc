@@ -1,0 +1,149 @@
+---
+description: dev-controle project stack — pinned versions and per-library practices
+alwaysApply: false
+---
+
+# Project stack (dev-controle)
+
+Versions below come from `package-lock.json` (current install). Update this rule when dependencies change.
+
+## Runtime and language
+
+| Technology | Version | Notes |
+|------------|---------|--------|
+| Node.js | **24** (Alpine in Docker) | `Dockerfile` uses `node:24-alpine`; align local environment when possible |
+| TypeScript | **5.9.3** | `strict: true`, `moduleResolution: "bundler"`, alias `@/*` → `src/*` |
+| Path alias | `@/` | Import from `src/` via `@/components/...`, not long relative paths |
+
+**Useful scripts:** `npm run type-check` (`next typegen && tsc --noEmit`), `npm run lint`, `npm run build`, `npm run test:integration`, `npm run test:e2e` / `test:e2e:docker`.
+
+## Framework and UI
+
+| Package | Version |
+|---------|---------|
+| next | **16.2.4** |
+| react / react-dom | **19.2.5** |
+| tailwindcss | **4.2.4** |
+| @tailwindcss/postcss | **4.2.4** |
+
+### Next.js 16
+
+- **Do not rely on knowledge from older versions.** APIs and conventions changed; before suggesting Next code, read `node_modules/next/dist/docs/` and deprecation notes in the project (`AGENTS.md`).
+- App Router under `src/app/`; Server Components by default.
+- Add `"use client"` only when you need hooks, state, events, or browser APIs (e.g. `SessionProvider`, forms, charts, modals).
+- `npm run type-check` depends on `next typegen` — do not skip it when validating types.
+
+### React 19
+
+- Functional components; type props with `Readonly<{...}>` when the project already does so in layouts.
+- `react-dom` 19 must match the same major as `react` — do not mix React 18.
+
+### Tailwind CSS 4
+
+- Global styles: `@import 'tailwindcss'` in `src/app/globals.css` (no required `tailwind.config.js`).
+- PostCSS: `@tailwindcss/postcss` plugin in `postcss.config.mjs`.
+- Dark mode: custom `@custom-variant dark` — respect existing `.dark` classes.
+
+## Data and ORM
+
+| Package | Version |
+|---------|---------|
+| prisma / @prisma/client | **6.19.3** |
+| @prisma/extension-accelerate | **3.0.1** (dependency; not yet wired into the client) |
+| Database | **MongoDB** (`provider = "mongodb"`) |
+
+### Prisma 6 in this repo
+
+- Generator: `prisma-client` with output in `generated/prisma` — import from `generated/prisma/client`, not `@prisma/client` directly in app code.
+- Config: `prisma.config.ts` with `dotenv` and `engine: "classic"`.
+- Dev singleton: `src/lib/prisma.ts` (avoid multiple `PrismaClient` instances on hot reload).
+- IDs: `@db.ObjectId` / `@map("_id")` — follow Mongo patterns when creating models and queries.
+
+## Authentication
+
+| Package | Version |
+|---------|---------|
+| next-auth | **4.24.14** |
+| @auth/prisma-adapter | **2.11.2** |
+
+- **Auth.js v5 / `next-auth@5` is not the current stack** — use v4 API: `AuthOptions`, `NextAuth(authOptions)`, route `src/app/api/auth/[...nextauth]/route.ts`.
+- Provider: Google; session extended in `src/@types/next-auth.d.ts` (`id`, `role`).
+- `SessionProvider` is a client component (`src/app/providers/auth.tsx`); check session on the server with `getServerSession` / patterns already used in the dashboard.
+
+## Forms and validation
+
+| Package | Version |
+|---------|---------|
+| react-hook-form | **7.75.0** |
+| @hookform/resolvers | **5.2.2** |
+| zod | **4.4.3** |
+| yup | **1.7.1** (in lockfile; **not used under `src/`**) |
+
+- Project standard: **Zod 4** + `zodResolver` from `@hookform/resolvers/zod` (see `src/app/dashboard/customer/components/form`).
+- Zod 4 differs from Zod 3 — do not copy old web snippets without checking the v4 API.
+- Do not introduce Yup in new code; prefer Zod for consistency.
+
+## HTTP, feedback, and charts
+
+| Package | Version | Project usage |
+|---------|---------|-----------------|
+| axios | **1.16.0** | `src/lib/api.ts` (`axios.create`) |
+| sonner | **2.0.7** | Toasts in `layout.tsx` (`<Toaster />`) |
+| react-icons | **5.6.0** | Icons in components |
+| chart.js | **4.5.1** | Metrics / admin |
+| react-chartjs-2 | **5.3.1** | React wrappers (client components) |
+
+- Charts and Chart.js require `"use client"`.
+- New external HTTP calls: reuse `api` from `src/lib/api.ts` when appropriate.
+
+## Observability
+
+| Package | Version |
+|---------|---------|
+| @sentry/nextjs | **10.51.0** |
+
+- Build wrapped with `withSentryConfig` in `next.config.ts`; `SENTRY_*` env vars in CI/Docker.
+- Keep the integration compatible with Next 16 when upgrading Sentry.
+
+## Quality and testing
+
+| Package | Version |
+|---------|---------|
+| vitest | **4.1.5** |
+| @vitejs/plugin-react | **6.0.1** |
+| jsdom | **29.1.1** |
+| @testing-library/react | **16.3.2** |
+| @testing-library/jest-dom | **6.9.1** |
+| @playwright/test | **1.59.1** |
+| eslint | **9.39.4** |
+| eslint-config-next | **16.2.4** |
+| prettier | **3.8.3** |
+
+### Testing
+
+- Integration/unit: `src/**/*.test.{ts,tsx}`, `jsdom` environment, setup in `vitest.setup.ts`.
+- E2E: `tests/e2e/`, Playwright with `next dev` as `webServer`.
+- Coverage: `npm run test:coverage` (Vitest v8).
+
+### ESLint
+
+- **Flat** config in `eslint.config.mjs`: `eslint-config-next/core-web-vitals`, `typescript`, `eslint-config-prettier/flat`.
+- Do not reintroduce legacy `.eslintrc`.
+
+## Expected layout
+
+```
+src/app/          # routes and pages (App Router)
+src/components/   # shared UI
+src/lib/          # auth, prisma, api
+generated/prisma/ # generated Prisma client
+prisma/           # schema and migrations
+tests/e2e/        # Playwright
+```
+
+## Checklist when adding a dependency
+
+1. Pin a version compatible with Next 16 + React 19.
+2. Server vs client: packages that use DOM/hooks → client component.
+3. Update this rule if the library becomes a project standard.
+4. Run `npm run type-check`, `npm run lint`, and affected tests.
