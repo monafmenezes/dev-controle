@@ -4,6 +4,7 @@ import { getServerSession } from 'next-auth'
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { TicketItem } from './components/ticket';
+import { TicketWorkflowInsights } from './components/ticket-workflow-insights';
 import { FiActivity, FiCheckCircle, FiClock, FiPlus, FiSearch, FiUsers, FiX } from 'react-icons/fi';
 import prisma from '@/lib/prisma';
 import Ticket from './interface';
@@ -136,6 +137,8 @@ export default async function Dashboard({ searchParams }: DashboardProps) {
             )
           })}
         </section>
+
+        <TicketWorkflowInsights agingWip={[]} responseTimeHeatmap={[]} />
 
         <section className='mt-6 rounded-md border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900' aria-label='Filtros de chamados'>
           <form className='grid gap-3 lg:grid-cols-[minmax(0,1fr)_220px_auto]' action='/dashboard'>
