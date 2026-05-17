@@ -3,6 +3,7 @@
 import { useEffect, useState, useTransition } from "react";
 import { FiEdit2, FiX } from "react-icons/fi";
 import { updateTicket } from "../../actions";
+import { ticketStatusOptions } from "../../ticket-status";
 
 interface EditTicketModalProps {
     ticket: {
@@ -13,17 +14,10 @@ interface EditTicketModalProps {
     };
 }
 
-const statusOptions = [
-    { value: "ABERTO", label: "Aberto" },
-    { value: "EM_ANDAMENTO", label: "Em andamento" },
-    { value: "RESOLVIDO", label: "Resolvido" },
-    { value: "FECHADO", label: "Fechado" },
-];
-
 export function EditTicketModal({ ticket }: EditTicketModalProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [isPending, startTransition] = useTransition();
-    const hasMappedStatus = statusOptions.some((option) => option.value === ticket.status);
+    const hasMappedStatus = ticketStatusOptions.some((option) => option.value === ticket.status);
 
     useEffect(() => {
         function handleKeyDown(event: KeyboardEvent) {
@@ -133,7 +127,7 @@ export function EditTicketModal({ ticket }: EditTicketModalProps) {
                                         Status atual: {ticket.status}
                                     </option>
                                 )}
-                                {statusOptions.map((option) => (
+                                {ticketStatusOptions.map((option) => (
                                     <option key={option.value} value={option.value}>
                                         {option.label}
                                     </option>

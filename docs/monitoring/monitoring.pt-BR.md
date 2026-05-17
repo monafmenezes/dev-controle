@@ -69,6 +69,15 @@ SENTRY_PROJECT=
 - `SENTRY_*_SAMPLE_RATE`: amostragem de tracing/profiling
 - `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, `SENTRY_PROJECT`: upload de sourcemaps no build
 
+## Acesso ao painel admin
+
+O acesso a `/dashboard/admin` depende do campo `role` do usuário no banco:
+
+- `USER`: acesso padrão
+- `ADMIN`: acesso ao painel admin
+
+Para promover um usuário existente, atualize o campo `role` para `ADMIN` na collection `User`.
+
 ## Setup local (sem Docker)
 
 1. Instalar dependências:

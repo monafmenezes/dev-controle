@@ -2,22 +2,26 @@
 
 import { Container } from "@/components/container";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 
 const tabs = [
     { href: "/dashboard", label: "Chamados", exact: true },
     { href: "/dashboard/followup", label: "Follow-up" },
     { href: "/dashboard/metrics", label: "Métricas" },
+    { href: "/dashboard/admin", label: "Admin", adminOnly: true },
     { href: "/dashboard/customer", label: "Clientes" },
 ];
 
 export function DashboardHeader() {
     const pathname = usePathname();
+    const { data: session } = useSession();
+    const visibleTabs = tabs.filter((tab) => !tab.adminOnly || session?.user.role === "ADMIN");
 
     return(
         <Container>
             <header className="my-5 flex w-full flex-wrap items-center gap-2 rounded-md border border-slate-200 bg-white/80 p-1 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/70">
-                {tabs.map((tab) => {
+                {visibleTabs.map((tab) => {
                     const isActive = tab.exact ? pathname === tab.href : pathname.startsWith(tab.href);
 
                     return (
